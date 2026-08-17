@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Romana...</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#000;
+  color:#fff;
+  font-family:monospace;
+}
+
+body{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* DARK VIGNETTE */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:100;
+  box-shadow:inset 0 0 160px 60px #000;
+}
+
+/* NOISE */
+.noise{
+  position:fixed;
+  inset:-50%;
+  opacity:.06;
+  pointer-events:none;
+  background-image:
+    repeating-radial-gradient(
+      circle,
+      #fff 0 1px,
+      transparent 1px 3px
+    );
+  animation:noise .12s infinite;
+}
+
+@keyframes noise{
+  0%{transform:translate(0,0)}
+  25%{transform:translate(3%,-2%)}
+  50%{transform:translate(-2%,3%)}
+  75%{transform:translate(1%,2%)}
+}
+
+/* INTRO */
+.intro{
+  position:fixed;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  z-index:10;
+  background:#000;
+}
+
+.intro.hide{
+  animation:fadeOut 1.5s forwards;
+}
+
+@keyframes fadeOut{
+  to{
+    opacity:0;
+    visibility:hidden;
+  }
+}
+
+.warning{
+  color:#7b0000;
+  font-size:11px;
+  letter-spacing:6px;
+  margin-bottom:25px;
+}
+
+.intro h1{
+  font-size:26px;
+  font-weight:400;
+  letter-spacing:3px;
+  animation:flicker 3s infinite;
+}
+
+.intro p{
+  margin-top:20px;
+  color:#555;
+  font-size:10px;
+  letter-spacing:3px;
+}
+
+@keyframes flicker{
+  0%,18%,22%,25%,53%,57%,100%{
+    opacity:1;
+  }
+  20%,24%,55%{
+    opacity:.15;
+  }
+}
+
+/* ROMANA NAME */
+.romana{
+  color:#a00000 !important;
+  font-size:42px !important;
+  letter-spacing:10px !important;
+  text-shadow:
+    0 0 10px #800000,
+    0 0 30px #500000,
+    0 0 60px #300000;
+}
+
+/* ROOM */
+.room{
+  position:fixed;
+  inset:0;
+  opacity:0;
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      #150000 0%,
+      #050000 22%,
+      #000 60%
+    );
+  transition:opacity 2s;
+}
+
+.room.show{
+  opacity:1;
+}
+
+/* FOG */
+.fog{
+  position:absolute;
+  width:200%;
+  height:40%;
+  left:-50%;
+  bottom:0;
+  opacity:.15;
+  filter:blur(30px);
+
+  background:
+    radial-gradient(
+      ellipse,
+      #777 0%,
+      transparent 60%
+    );
+
+  animation:fog 10s linear infinite;
+}
+
+@keyframes fog{
+  from{transform:translateX(-15%)}
+  to{transform:translateX(15%)}
+}
+
+/* EYES */
+.eyes{
+  position:absolute;
+  top:37%;
+  left:50%;
+
+  transform:
+    translate(-50%,-50%)
+    scale(.7);
+
+  display:flex;
+  gap:70px;
+
+  opacity:0;
+
+  transition:
+    opacity 2s,
+    transform 4s;
+}
+
+.eyes.show{
+  opacity:1;
+
+  transform:
+    translate(-50%,-50%)
+    scale(1.2);
+}
+
+.eye{
+  width:38px;
+  height:13px;
+
+  background:#b00000;
+
+  border-radius:
+    70% 20% 70% 20%;
+
+  box-shadow:
+    0 0 10px red,
+    0 0 25px #c00000,
+    0 0 55px #700000;
+}
+
+.eye:nth-child(2){
+  transform:scaleX(-1);
+}
+
+/* SCARY TEXT */
+.message{
+  position:absolute;
+  top:60%;
+
+  width:100%;
+
+  text-align:center;
+
+  color:#8c0000;
+
+  font-size:15px;
+
+  letter-spacing:5px;
+
+  opacity:0;
+}
+
+.message.show{
+  animation:
+    glitchShow .4s infinite;
+}
+
+@keyframes glitchShow{
+
+  0%{
+    opacity:.4;
+    transform:translate(0);
+  }
+
+  25%{
+    opacity:1;
+    transform:translate(-4px,2px);
+  }
+
+  50%{
+    transform:translate(5px,-2px);
+  }
+
+  75%{
+    transform:translate(-2px,-3px);
+  }
+
+  100%{
+    opacity:.7;
+    transform:translate(0);
+  }
+}
+
+/* COUNTDOWN */
+.count{
+  position:fixed;
+
+  font-size:110px;
+
+  color:#690000;
+
+  opacity:0;
+
+  z-index:20;
+
+  text-shadow:
+    0 0 15px red,
+    0 0 40px #800000;
+}
+
+/* JUMPSCARE */
+.scare{
+  position:fixed;
+
+  inset:0;
+
+  z-index:200;
+
+  display:none;
+
+  background:#000;
+
+  align-items:center;
+  justify-content:center;
+
+  overflow:hidden;
+}
+
+.scare.active{
+  display:flex;
+
+  animation:
+    screenShake .07s infinite;
+}
+
+/* MONSTER FACE */
+.face{
+  position:relative;
+
+  width:330px;
+  height:430px;
+
+  border-radius:
+    48% 48% 42% 42%;
+
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      #e8e8e8 0%,
+      #777 30%,
+      #111 72%
+    );
+
+  filter:contrast(1.7);
+
+  transform:scale(1.4);
+
+  animation:
+    attack .35s infinite alternate;
+}
+
+@keyframes attack{
+
+  from{
+    transform:
+      scale(1.25)
+      rotate(-2deg);
+  }
+
+  to{
+    transform:
+      scale(1.65)
+      rotate(2deg);
+  }
+}
+
+.face::before,
+.face::after{
+
+  content:"";
+
+  position:absolute;
+
+  top:125px;
+
+  width:75px;
+  height:55px;
+
+  border-radius:50%;
+
+  background:#050000;
+
+  box-shadow:
+    inset 0 0 15px #000,
+    0 0 25px #b00000;
+}
+
+.face::before{
+  left:48px;
+}
+
+.face::after{
+  right:48px;
+}
+
+.pupil1,
+.pupil2{
+
+  position:absolute;
+
+  top:143px;
+
+  width:15px;
+  height:15px;
+
+  background:#ff0000;
+
+  border-radius:50%;
+
+  z-index:5;
+
+  box-shadow:
+    0 0 20px red,
+    0 0 45px #a00000;
+}
+
+.pupil1{
+  left:78px;
+}
+
+.pupil2{
+  right:78px;
+}
+
+.mouth{
+
+  position:absolute;
+
+  left:50%;
+
+  bottom:60px;
+
+  transform:
+    translateX(-50%);
+
+  width:160px;
+  height:120px;
+
+  background:#000;
+
+  border-radius:
+    15% 15% 50% 50%;
+
+  overflow:hidden;
+}
+
+.teeth{
+
+  position:absolute;
+
+  width:100%;
+
+  top:0;
+
+  display:flex;
+
+  justify-content:center;
+}
+
+.tooth{
+
+  width:25px;
+  height:45px;
+
+  background:#ddd;
+
+  clip-path:
+    polygon(
+      0 0,
+      100% 0,
+      50% 100%
+    );
+}
+
+/* FLASH */
+.flash{
+
+  position:fixed;
+
+  inset:0;
+
+  background:#fff;
+
+  opacity:0;
+
+  pointer-events:none;
+
+  z-index:300;
+}
+
+.flash.active{
+  animation:flash .5s;
+}
+
+@keyframes flash{
+
+  0%{
+    opacity:1;
+  }
+
+  20%{
+    opacity:0;
+  }
+
+  40%{
+    opacity:.8;
+    background:red;
+  }
+
+  100%{
+    opacity:0;
+  }
+}
+
+@keyframes screenShake{
+
+  0%{
+    transform:
+      translate(-8px,5px);
+  }
+
+  25%{
+    transform:
+      translate(8px,-7px);
+  }
+
+  50%{
+    transform:
+      translate(-5px,-6px);
+  }
+
+  75%{
+    transform:
+      translate(7px,7px);
+  }
+}
+
+/* END */
+.end{
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:400;
+
+  display:none;
+
+  justify-content:center;
+  align-items:center;
+
+  flex-direction:column;
+
+  background:#000;
+
+  text-align:center;
+}
+
+.end.show{
+
+  display:flex;
+
+  animation:
+    endShow 1s;
+}
+
+.end h1{
+
+  color:#b00000;
+
+  font-size:40px;
+
+  letter-spacing:6px;
+
+  text-shadow:
+    0 0 25px red;
+}
+
+.end p{
+
+  margin-top:20px;
+
+  color:#888;
+
+  letter-spacing:4px;
+
+  font-size:12px;
+}
+
+.end .heart{
+
+  color:red;
+
+  font-size:30px;
+
+  margin-top:20px;
+
+  animation:
+    heartBeat .8s infinite;
+}
+
+@keyframes heartBeat{
+
+  50%{
+    transform:scale(1.3);
+
+    text-shadow:
+      0 0 25px red;
+  }
+}
+
+@keyframes endShow{
+
+  from{
+    opacity:0;
+  }
+
+  to{
+    opacity:1;
+  }
+}
+
+/* SOUND MESSAGE */
+.soundHint{
+
+  position:fixed;
+
+  bottom:22px;
+
+  z-index:500;
+
+  color:#333;
+
+  font-size:9px;
+
+  letter-spacing:3px;
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div class="noise"></div>
+
+
+<!-- INTRO -->
+
+<div class="intro" id="intro">
+
+  <div
+    class="warning"
+    id="warning">
+  </div>
+
+  <h1
+    id="introTitle"
+    class="romana">
+
+    ROMANA...
+
+  </h1>
+
+  <p id="introSub"></p>
+
+</div>
+
+
+
+<!-- HORROR ROOM -->
+
+<div
+  class="room"
+  id="room">
+
+  <div class="fog"></div>
+
+
+  <div
+    class="eyes"
+    id="eyes">
+
+    <div class="eye"></div>
+
+    <div class="eye"></div>
+
+  </div>
+
+
+  <div
+    class="message"
+    id="message">
+
+    IT CAN SEE YOU
+
+  </div>
+
+</div>
+
+
+
+<!-- COUNTDOWN -->
+
+<div
+  class="count"
+  id="count">
+</div>
+
+
+
+<!-- JUMPSCARE -->
+
+<div
+  class="scare"
+  id="scare">
+
+  <div class="face">
+
+
+    <div class="pupil1"></div>
+
+    <div class="pupil2"></div>
+
+
+    <div class="mouth">
+
+      <div class="teeth">
+
+        <div class="tooth"></div>
+
+        <div class="tooth"></div>
+
+        <div class="tooth"></div>
+
+        <div class="tooth"></div>
+
+        <div class="tooth"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<div
+  class="flash"
+  id="flash">
+</div>
+
+
+
+<!-- END -->
+
+<div
+  class="end"
+  id="end">
+
+  <h1>
+    SORRY ROMANA 😂
+  </h1>
+
+  <p>
+    YOU SURVIVED.
+  </p>
+
+  <div class="heart">
+    ♥
+  </div>
+
+</div>
+
+
+<div class="soundHint">
+  SOUND ON
+</div>
+
+
+
+<script>
+
+/* ELEMENTS */
+
+const intro =
+document.getElementById("intro");
+
+const warning =
+document.getElementById("warning");
+
+const introTitle =
+document.getElementById("introTitle");
+
+const introSub =
+document.getElementById("introSub");
+
+const room =
+document.getElementById("room");
+
+const eyes =
+document.getElementById("eyes");
+
+const message =
+document.getElementById("message");
+
+const count =
+document.getElementById("count");
+
+const scare =
+document.getElementById("scare");
+
+const flash =
+document.getElementById("flash");
+
+const end =
+document.getElementById("end");
+
+
+/* =========================
+   WEB AUDIO
+========================= */
+
+let audioCtx;
+
+
+/* CREATE AUDIO */
+
+function audio(){
+
+  if(!audioCtx){
+
+    audioCtx =
+      new (
+        window.AudioContext ||
+        window.webkitAudioContext
+      )();
+
+  }
+
+}
+
+
+/* HEARTBEAT */
+
+function heartbeat(){
+
+  audio();
+
+
+  const osc =
+    audioCtx.createOscillator();
+
+
+  const gain =
+    audioCtx.createGain();
+
+
+  osc.type="sine";
+
+
+  osc.frequency.value=55;
+
+
+  gain.gain.setValueAtTime(
+    .001,
+    audioCtx.currentTime
+  );
+
+
+  gain.gain.exponentialRampToValueAtTime(
+    .35,
+    audioCtx.currentTime+.02
+  );
+
+
+  gain.gain.exponentialRampToValueAtTime(
+    .001,
+    audioCtx.currentTime+.22
+  );
+
+
+  osc.connect(gain);
+
+
+  gain.connect(
+    audioCtx.destination
+  );
+
+
+  osc.start();
+
+
+  osc.stop(
+    audioCtx.currentTime+.25
+  );
+
+}
+
+
+/* =========================
+   JUMPSCARE SOUND
+========================= */
+
+function scream(){
+
+  audio();
+
+
+  const duration=1.4;
+
+
+  const buffer=
+    audioCtx.createBuffer(
+
+      1,
+
+      audioCtx.sampleRate*duration,
+
+      audioCtx.sampleRate
+
+    );
+
+
+  const data=
+    buffer.getChannelData(0);
+
+
+  for(
+    let i=0;
+    i<data.length;
+    i++
+  ){
+
+    data[i]=
+      (Math.random()*2-1) *
+      (1-i/data.length);
+
+  }
+
+
+  const source=
+    audioCtx.createBufferSource();
+
+
+  source.buffer=buffer;
+
+
+  const filter=
+    audioCtx.createBiquadFilter();
+
+
+  filter.type="bandpass";
+
+  filter.frequency.value=1300;
+
+  filter.Q.value=.7;
+
+
+  const gain=
+    audioCtx.createGain();
+
+
+  gain.gain.value=.55;
+
+
+  source.connect(filter);
+
+
+  filter.connect(gain);
+
+
+  gain.connect(
+    audioCtx.destination
+  );
+
+
+  source.start();
+
+}
+
+
+/* =========================
+   AUDIO UNLOCK
+========================= */
+
+/*
+  Mobile Chrome may block audio
+  until the page is touched.
+
+  Any first touch unlocks it.
+*/
+
+document.addEventListener(
+
+  "pointerdown",
+
+  ()=>{
+
+    audio();
+
+
+    if(
+      audioCtx.state==="suspended"
+    ){
+
+      audioCtx.resume();
+
+    }
+
+  },
+
+  {once:true}
+
+);
+
+
+/* =========================
+   STORY
+========================= */
+
+
+/* ROMANA stays first */
+
+setTimeout(()=>{
+
+  warning.innerHTML="";
+
+  introTitle.innerHTML=
+    "ROMANA...";
+
+  introSub.innerHTML="";
+
+},100);
+
+
+/* WARNING */
+
+setTimeout(()=>{
+
+  warning.innerHTML=
+    "⚠ WARNING ⚠";
+
+
+  introTitle.classList.remove(
+    "romana"
+  );
+
+
+  introTitle.innerHTML=
+    "DON'T LOOK BEHIND YOU.";
+
+
+  introSub.innerHTML=
+    "Something is already here...";
+
+},3200);
+
+
+/* ENTER ROOM */
+
+setTimeout(()=>{
+
+  intro.classList.add(
+    "hide"
+  );
+
+
+  room.classList.add(
+    "show"
+  );
+
+},6200);
+
+
+/* RED EYES */
+
+setTimeout(()=>{
+
+  eyes.classList.add(
+    "show"
+  );
+
+},8400);
+
+
+/* =========================
+   HEARTBEAT
+========================= */
+
+let beat;
+
+
+setTimeout(()=>{
+
+  heartbeat();
+
+
+  beat=
+    setInterval(
+
+      heartbeat,
+
+      850
+
+    );
+
+},8800);
+
+
+/* MESSAGE */
+
+setTimeout(()=>{
+
+  message.classList.add(
+    "show"
+  );
+
+},10200);
+
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+setTimeout(()=>{
+
+
+  count.style.opacity=1;
+
+
+  let n=3;
+
+
+  count.innerText=n;
+
+
+  const timer=
+    setInterval(()=>{
+
+
+      n--;
+
+
+      if(n>0){
+
+        count.innerText=n;
+
+      }
+
+
+      else{
+
+
+        clearInterval(
+          timer
+        );
+
+
+        count.style.opacity=0;
+
+
+        clearInterval(
+          beat
+        );
+
+
+        jumpscare();
+
+      }
+
+
+    },800);
+
+
+},12000);
+
+
+/* =========================
+   JUMPSCARE
+========================= */
+
+function jumpscare(){
+
+
+  scare.classList.add(
+    "active"
+  );
+
+
+  flash.classList.add(
+    "active"
+  );
+
+
+  /* SOUND */
+
+  scream();
+
+
+  /* PHONE VIBRATION */
+
+  if(
+    navigator.vibrate
+  ){
+
+    navigator.vibrate([
+
+      150,
+      50,
+      150,
+      50,
+      300
+
+    ]);
+
+  }
+
+
+  /* END JUMPSCARE */
+
+  setTimeout(()=>{
+
+
+    scare.classList.remove(
+      "active"
+    );
+
+
+    end.classList.add(
+      "show"
+    );
+
+
+  },1800);
+
+}
+
+</script>
+
+</body>
+</html>
