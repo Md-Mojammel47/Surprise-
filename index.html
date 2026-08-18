@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For You ♥</title>
+<title>For You...</title>
 
 <style>
 *{
@@ -17,7 +17,7 @@ html,body{
   height:100%;
   overflow:hidden;
   background:#000;
-  color:#fff;
+  color:white;
   font-family:monospace;
 }
 
@@ -27,44 +27,46 @@ body{
   align-items:center;
 }
 
-/* DARK VIGNETTE */
+/* VIGNETTE */
 body::after{
   content:"";
   position:fixed;
   inset:0;
   pointer-events:none;
-  z-index:100;
-  box-shadow:inset 0 0 160px 60px #000;
+  z-index:500;
+  box-shadow:inset 0 0 150px 50px #000;
 }
 
 /* NOISE */
 .noise{
   position:fixed;
-  inset:-50%;
-  opacity:.05;
+  inset:-40%;
+  opacity:.04;
   pointer-events:none;
   background-image:
     repeating-radial-gradient(
       circle,
       #fff 0 1px,
-      transparent 1px 3px
+      transparent 1px 4px
     );
-  animation:noise .12s infinite;
+  animation:noise .15s infinite;
 }
 
 @keyframes noise{
   0%{transform:translate(0,0)}
-  25%{transform:translate(3%,-2%)}
-  50%{transform:translate(-2%,3%)}
-  75%{transform:translate(1%,2%)}
+  25%{transform:translate(2%,-2%)}
+  50%{transform:translate(-2%,2%)}
+  75%{transform:translate(2%,1%)}
 }
 
-/* ================= INTRO ================= */
+/* =========================
+   FIRST SCREEN
+========================= */
 
 .intro{
   position:fixed;
   inset:0;
-  z-index:150;
+  z-index:100;
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -75,409 +77,393 @@ body::after{
 }
 
 .intro.hide{
-  animation:fadeOut 1.4s forwards;
+  animation:introHide 1.3s forwards;
 }
 
-@keyframes fadeOut{
+@keyframes introHide{
   to{
     opacity:0;
     visibility:hidden;
   }
 }
 
-.warning{
-  color:#8d0000;
-  font-size:11px;
-  letter-spacing:6px;
-  margin-bottom:25px;
-  min-height:15px;
-}
-
-#introTitle{
-  font-size:26px;
+.intro h1{
+  font-size:30px;
+  letter-spacing:7px;
   font-weight:400;
-  letter-spacing:4px;
+  margin-bottom:18px;
 }
 
-#introTitle.romana{
-  color:#fff;
-  font-size:38px;
-  letter-spacing:9px;
-  text-shadow:0 0 20px rgba(255,255,255,.15);
-}
-
-#introSub{
-  margin-top:20px;
+.intro p{
   color:#888;
-  font-size:11px;
+  font-size:13px;
   letter-spacing:3px;
   line-height:1.8;
 }
 
-/* OPEN BUTTON */
-
-#openBtn{
-  margin-top:40px;
-  padding:14px 34px;
-
-  color:#eee;
-  background:transparent;
-
-  border:1px solid #555;
+.openBtn{
+  margin-top:45px;
+  padding:15px 35px;
+  border:1px solid #8d1c1c;
   border-radius:30px;
-
+  background:transparent;
+  color:#ddd;
   font-family:monospace;
+  letter-spacing:4px;
   font-size:12px;
-  letter-spacing:3px;
-
   cursor:pointer;
-
-  transition:.3s;
-
-  position:relative;
-  z-index:200;
+  box-shadow:0 0 20px rgba(150,0,0,.2);
 }
 
-#openBtn:hover{
-  border-color:#999;
-  box-shadow:0 0 20px rgba(255,255,255,.1);
+.openBtn:active{
+  transform:scale(.95);
 }
 
-#openBtn:active{
-  transform:scale(.93);
-}
-
-/* FLICKER AFTER OPEN */
-
-.horrorTitle{
-  color:#a00000 !important;
-  text-shadow:
-    0 0 10px #700000,
-    0 0 30px #400000 !important;
-
-  animation:flicker .22s infinite;
-}
-
-@keyframes flicker{
-  0%{opacity:1}
-  15%{opacity:.3}
-  25%{opacity:1}
-  50%{opacity:.7}
-  55%{opacity:.1}
-  65%{opacity:1}
-  100%{opacity:.9}
-}
-
-/* ================= ROOM ================= */
+/* =========================
+   ROOM
+========================= */
 
 .room{
   position:fixed;
   inset:0;
   opacity:0;
-
+  visibility:hidden;
   background:
     radial-gradient(
-      circle at 50% 45%,
-      #170000 0%,
-      #060000 23%,
-      #000 62%
+      circle at 50% 42%,
+      #190000 0%,
+      #080000 18%,
+      #020000 42%,
+      #000 72%
     );
-
-  transition:opacity 2s;
+  transition:opacity 1.5s;
 }
 
 .room.show{
   opacity:1;
+  visibility:visible;
 }
 
 /* FOG */
-
 .fog{
   position:absolute;
-  width:200%;
-  height:40%;
-  left:-50%;
-  bottom:0;
-
-  opacity:.15;
-  filter:blur(30px);
-
+  width:180%;
+  height:45%;
+  left:-40%;
+  bottom:-10%;
+  opacity:.13;
+  filter:blur(35px);
   background:
     radial-gradient(
       ellipse,
-      #777 0%,
-      transparent 60%
+      #999 0%,
+      transparent 65%
     );
-
-  animation:fog 10s linear infinite;
+  animation:fogMove 9s ease-in-out infinite alternate;
 }
 
-@keyframes fog{
-  from{transform:translateX(-15%)}
-  to{transform:translateX(15%)}
+@keyframes fogMove{
+  from{transform:translateX(-12%)}
+  to{transform:translateX(12%)}
 }
 
-/* ================= EYES ================= */
+/* =========================
+   EYES
+========================= */
 
 .eyes{
   position:absolute;
-  top:37%;
+  top:38%;
   left:50%;
-
-  transform:
-    translate(-50%,-50%)
-    scale(.7);
-
+  transform:translate(-50%,-50%);
   display:flex;
-  gap:70px;
-
+  gap:75px;
   opacity:0;
-
-  transition:
-    opacity 2s,
-    transform 4s;
+  transition:opacity 2.5s;
 }
 
 .eyes.show{
-  opacity:1;
-
-  transform:
-    translate(-50%,-50%)
-    scale(1.2);
+  opacity:.85;
 }
 
 .eye{
-  width:38px;
-  height:13px;
-
+  width:42px;
+  height:14px;
   background:#b00000;
-
-  border-radius:
-    70% 20% 70% 20%;
-
+  border-radius:80% 20% 80% 20%;
   box-shadow:
-    0 0 10px red,
-    0 0 25px #c00000,
-    0 0 55px #700000;
-
-  animation:eyeGlow 1.5s infinite alternate;
+    0 0 10px #f00,
+    0 0 30px #900,
+    0 0 60px #500;
 }
 
 .eye:nth-child(2){
   transform:scaleX(-1);
 }
 
-@keyframes eyeGlow{
-  from{
-    filter:brightness(.6);
-  }
-
-  to{
-    filter:brightness(1.5);
-  }
-}
-
-/* ================= MESSAGE ================= */
+/* =========================
+   MESSAGE
+========================= */
 
 .message{
   position:absolute;
-  top:60%;
+  top:61%;
+  left:0;
   width:100%;
-
   text-align:center;
-
-  color:#8c0000;
-
+  color:#8d0000;
   font-size:15px;
-  letter-spacing:5px;
-
+  letter-spacing:6px;
   opacity:0;
 }
 
 .message.show{
-  animation:glitchShow .35s infinite;
+  opacity:1;
+  animation:messageGlitch .35s infinite;
 }
 
-@keyframes glitchShow{
-  0%{
-    opacity:.4;
-    transform:translate(0);
-  }
-
-  25%{
-    opacity:1;
-    transform:translate(-4px,2px);
-  }
-
-  50%{
-    transform:translate(5px,-2px);
-  }
-
-  75%{
-    transform:translate(-2px,-3px);
-  }
-
-  100%{
-    opacity:.7;
-    transform:translate(0);
-  }
+@keyframes messageGlitch{
+  0%{transform:translate(0)}
+  30%{transform:translate(-2px,1px)}
+  60%{transform:translate(2px,-1px)}
+  100%{transform:translate(0)}
 }
 
-/* ================= COUNTDOWN ================= */
+/* =========================
+   COUNTDOWN
+========================= */
 
 .count{
   position:fixed;
+  z-index:250;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  inset:0;
+  background:#000;
+  color:#850000;
   font-size:110px;
-  color:#790000;
-  opacity:0;
-  z-index:180;
-
+  font-weight:bold;
   text-shadow:
-    0 0 15px red,
-    0 0 40px #800000;
+    0 0 15px #f00,
+    0 0 45px #700;
 }
 
-/* ================= JUMPSCARE ================= */
+.count.show{
+  display:flex;
+}
+
+.count.pop{
+  animation:countPop .7s;
+}
+
+@keyframes countPop{
+  0%{
+    transform:scale(2);
+    opacity:0;
+  }
+  30%{
+    transform:scale(1);
+    opacity:1;
+  }
+  100%{
+    opacity:.7;
+  }
+}
+
+/* =========================
+   FAKE QUIET SCREEN
+========================= */
+
+.silence{
+  position:fixed;
+  inset:0;
+  z-index:280;
+  display:none;
+  background:#000;
+}
+
+.silence.show{
+  display:block;
+}
+
+/* =========================
+   JUMPSCARE
+========================= */
 
 .scare{
   position:fixed;
   inset:0;
-  z-index:300;
-
+  z-index:400;
   display:none;
-
-  background:#000;
-
-  align-items:center;
   justify-content:center;
-
+  align-items:center;
+  background:
+    radial-gradient(circle,#420000,#000 65%);
   overflow:hidden;
 }
 
 .scare.active{
   display:flex;
-  animation:screenShake .06s infinite;
+  animation:shake .065s infinite;
 }
 
+/* MONSTER */
 .face{
   position:relative;
-
   width:330px;
   height:430px;
 
   border-radius:
-    48% 48% 42% 42%;
+    48% 48%
+    38% 38%;
 
   background:
     radial-gradient(
-      circle at 50% 35%,
-      #eee 0%,
-      #777 28%,
-      #111 70%
+      circle at 50% 34%,
+      #d5d5d5 0%,
+      #777 24%,
+      #252525 50%,
+      #050505 78%
     );
 
-  filter:contrast(1.8);
+  filter:
+    contrast(1.8)
+    brightness(.9);
 
   animation:attack .22s infinite alternate;
 }
 
 @keyframes attack{
   from{
-    transform:scale(1.15) rotate(-3deg);
+    transform:
+      scale(1.15)
+      rotate(-2deg);
   }
-
   to{
-    transform:scale(1.65) rotate(3deg);
+    transform:
+      scale(1.6)
+      rotate(2deg);
   }
 }
 
+/* DARK EYE SOCKETS */
 .face::before,
 .face::after{
   content:"";
-
   position:absolute;
-  top:125px;
+  top:115px;
+  width:85px;
+  height:65px;
+  border-radius:55%;
 
-  width:75px;
-  height:55px;
-
-  border-radius:50%;
-
-  background:#020000;
+  background:#000;
 
   box-shadow:
-    inset 0 0 15px #000,
-    0 0 30px #b00000;
+    inset 0 0 20px #000,
+    0 0 20px #b00000,
+    0 0 45px #500;
 }
 
 .face::before{
-  left:48px;
+  left:38px;
+  transform:rotate(10deg);
 }
 
 .face::after{
-  right:48px;
+  right:38px;
+  transform:rotate(-10deg);
 }
 
-.pupil1,
-.pupil2{
+/* PUPILS */
+
+.pupil{
   position:absolute;
-
-  top:143px;
-
-  width:15px;
-  height:15px;
-
-  background:red;
-
+  top:139px;
+  width:18px;
+  height:18px;
   border-radius:50%;
-
+  background:#f00000;
   z-index:5;
 
   box-shadow:
-    0 0 20px red,
-    0 0 45px #a00000;
+    0 0 8px red,
+    0 0 25px red;
 }
 
-.pupil1{
-  left:78px;
+.pupil.left{
+  left:72px;
 }
 
-.pupil2{
-  right:78px;
+.pupil.right{
+  right:72px;
 }
 
-.mouth{
+/* NOSE */
+.nose{
   position:absolute;
-
+  top:205px;
   left:50%;
-  bottom:60px;
-
   transform:translateX(-50%);
 
-  width:160px;
-  height:120px;
+  width:35px;
+  height:55px;
+
+  background:#090909;
+
+  clip-path:
+    polygon(
+      50% 0,
+      100% 100%,
+      50% 80%,
+      0 100%
+    );
+}
+
+/* MOUTH */
+.mouth{
+  position:absolute;
+  left:50%;
+  bottom:48px;
+  transform:translateX(-50%);
+
+  width:180px;
+  height:130px;
 
   background:#000;
 
   border-radius:
-    15% 15% 50% 50%;
+    15% 15%
+    50% 50%;
 
   overflow:hidden;
+
+  box-shadow:
+    inset 0 0 20px #400,
+    0 0 15px #500;
 }
 
-.teeth{
+/* TEETH TOP */
+.teethTop,
+.teethBottom{
   position:absolute;
   width:100%;
-  top:0;
-
   display:flex;
   justify-content:center;
 }
 
-.tooth{
-  width:25px;
-  height:45px;
+.teethTop{
+  top:0;
+}
 
+.teethBottom{
+  bottom:0;
+  transform:rotate(180deg);
+}
+
+.tooth{
+  width:28px;
+  height:45px;
   background:#ddd;
 
   clip-path:
@@ -488,140 +474,94 @@ body::after{
     );
 }
 
-/* FLASH */
+/* =========================
+   RED FLASH
+========================= */
 
 .flash{
   position:fixed;
   inset:0;
-
-  background:#fff;
-
+  z-index:450;
+  background:#b00000;
   opacity:0;
-
   pointer-events:none;
-
-  z-index:400;
 }
 
 .flash.active{
-  animation:flash .55s;
+  animation:oneFlash .35s;
 }
 
-@keyframes flash{
-  0%{
-    opacity:1;
-  }
-
-  20%{
-    opacity:0;
-  }
-
-  40%{
-    opacity:.9;
-    background:red;
-  }
-
-  60%{
-    opacity:0;
-  }
-
-  75%{
-    opacity:.5;
-    background:#fff;
-  }
-
-  100%{
-    opacity:0;
-  }
+@keyframes oneFlash{
+  0%{opacity:.75}
+  100%{opacity:0}
 }
 
-@keyframes screenShake{
-  0%{
-    transform:translate(-9px,6px);
-  }
-
-  25%{
-    transform:translate(9px,-8px);
-  }
-
-  50%{
-    transform:translate(-6px,-7px);
-  }
-
-  75%{
-    transform:translate(8px,8px);
-  }
-
-  100%{
-    transform:translate(-4px,3px);
-  }
+/* SCREEN SHAKE */
+@keyframes shake{
+  0%{transform:translate(-7px,5px)}
+  25%{transform:translate(7px,-6px)}
+  50%{transform:translate(-5px,-5px)}
+  75%{transform:translate(6px,6px)}
+  100%{transform:translate(0)}
 }
 
-/* ================= END ================= */
+/* =========================
+   END
+========================= */
 
 .end{
   position:fixed;
   inset:0;
-  z-index:500;
-
+  z-index:600;
   display:none;
-
+  flex-direction:column;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
-
-  background:#000;
-
   text-align:center;
+  background:#000;
 }
 
 .end.show{
   display:flex;
-  animation:endShow 1.2s;
+  animation:endFade 1.2s;
 }
 
 .end h1{
   color:#b00000;
-
-  font-size:35px;
-  letter-spacing:5px;
-
+  font-size:36px;
+  letter-spacing:7px;
   text-shadow:
-    0 0 25px red;
+    0 0 15px red,
+    0 0 35px #700;
+}
+
+.end .emoji{
+  font-size:55px;
+  margin:20px 0;
 }
 
 .end p{
-  margin-top:20px;
-
   color:#777;
-
-  letter-spacing:4px;
-
-  font-size:11px;
+  font-size:12px;
+  letter-spacing:5px;
 }
 
-.heart{
-  margin-top:25px;
-
-  color:#c00000;
-
-  font-size:35px;
-
-  animation:heartAnimation .8s infinite;
+.end .heart{
+  margin-top:35px;
+  color:#d00000;
+  font-size:50px;
+  text-shadow:0 0 25px red;
+  animation:heart 1s infinite;
 }
 
-@keyframes heartAnimation{
-  50%{
-    transform:scale(1.35);
-    text-shadow:0 0 30px red;
-  }
+@keyframes heart{
+  50%{transform:scale(1.25)}
 }
 
-@keyframes endShow{
+@keyframes endFade{
   from{opacity:0}
   to{opacity:1}
 }
-
 </style>
 </head>
 
@@ -630,58 +570,89 @@ body::after{
 <div class="noise"></div>
 
 <!-- FIRST SCREEN -->
-
 <div class="intro" id="intro">
 
-  <div class="warning" id="warning"></div>
-
-  <h1 id="introTitle" class="romana">
-    ROMANA...
+  <h1 id="introTitle">
+    FRIEND...
   </h1>
 
-  <p id="introSub">
+  <p id="introText">
     I MADE SOMETHING FOR YOU.
   </p>
 
-  <button id="openBtn">
+  <button
+    class="openBtn"
+    id="openBtn">
     OPEN IT ♥
   </button>
 
 </div>
 
-<!-- DARK ROOM -->
 
+<!-- HORROR ROOM -->
 <div class="room" id="room">
 
   <div class="fog"></div>
 
-  <div class="eyes" id="eyes">
+  <div
+    class="eyes"
+    id="eyes">
+
     <div class="eye"></div>
     <div class="eye"></div>
+
   </div>
 
-  <div class="message" id="message">
-    IT CAN SEE YOU
+  <div
+    class="message"
+    id="message">
+
+    DON'T LOOK AWAY
+
   </div>
 
 </div>
 
-<!-- COUNTDOWN -->
 
-<div class="count" id="count"></div>
+<!-- COUNTDOWN -->
+<div
+  class="count"
+  id="count">
+</div>
+
+
+<!-- FAKE SILENCE -->
+<div
+  class="silence"
+  id="silence">
+</div>
+
 
 <!-- JUMPSCARE -->
-
-<div class="scare" id="scare">
+<div
+  class="scare"
+  id="scare">
 
   <div class="face">
 
-    <div class="pupil1"></div>
-    <div class="pupil2"></div>
+    <div class="pupil left"></div>
+    <div class="pupil right"></div>
+
+    <div class="nose"></div>
 
     <div class="mouth">
 
-      <div class="teeth">
+      <div class="teethTop">
+        <div class="tooth"></div>
+        <div class="tooth"></div>
+        <div class="tooth"></div>
+        <div class="tooth"></div>
+        <div class="tooth"></div>
+        <div class="tooth"></div>
+      </div>
+
+      <div class="teethBottom">
+        <div class="tooth"></div>
         <div class="tooth"></div>
         <div class="tooth"></div>
         <div class="tooth"></div>
@@ -695,13 +666,25 @@ body::after{
 
 </div>
 
-<div class="flash" id="flash"></div>
+
+<div
+  class="flash"
+  id="flash">
+</div>
+
 
 <!-- END -->
+<div
+  class="end"
+  id="end">
 
-<div class="end" id="end">
+  <h1>
+    SORRY FRIEND
+  </h1>
 
-  <h1>SORRY ROMANA 😂</h1>
+  <div class="emoji">
+    😂
+  </div>
 
   <p>
     YOU SURVIVED.
@@ -713,19 +696,19 @@ body::after{
 
 </div>
 
+
 <script>
+
+/* ELEMENTS */
 
 const intro =
   document.getElementById("intro");
 
-const warning =
-  document.getElementById("warning");
-
 const introTitle =
   document.getElementById("introTitle");
 
-const introSub =
-  document.getElementById("introSub");
+const introText =
+  document.getElementById("introText");
 
 const openBtn =
   document.getElementById("openBtn");
@@ -742,6 +725,9 @@ const message =
 const count =
   document.getElementById("count");
 
+const silence =
+  document.getElementById("silence");
+
 const scare =
   document.getElementById("scare");
 
@@ -752,13 +738,14 @@ const end =
   document.getElementById("end");
 
 
-/* ==========================
+/* =========================
    AUDIO
-========================== */
+========================= */
 
 let audioCtx;
+let heartbeatTimer;
 
-function audio(){
+function initAudio(){
 
   if(!audioCtx){
 
@@ -777,7 +764,10 @@ function audio(){
 
 function heartbeat(){
 
-  audio();
+  if(!audioCtx) return;
+
+  const now =
+    audioCtx.currentTime;
 
   const osc =
     audioCtx.createOscillator();
@@ -787,32 +777,91 @@ function heartbeat(){
 
   osc.type="sine";
 
-  osc.frequency.setValueAtTime(
-    58,
-    audioCtx.currentTime
-  );
+  osc.frequency
+    .setValueAtTime(
+      58,
+      now
+    );
 
-  osc.frequency.exponentialRampToValueAtTime(
-    42,
-    audioCtx.currentTime+.2
-  );
+  osc.frequency
+    .exponentialRampToValueAtTime(
+      42,
+      now+.18
+    );
 
-  gain.gain.setValueAtTime(
-    .001,
-    audioCtx.currentTime
-  );
+  gain.gain
+    .setValueAtTime(
+      .001,
+      now
+    );
 
-  gain.gain.exponentialRampToValueAtTime(
-    .42,
-    audioCtx.currentTime+.02
-  );
+  gain.gain
+    .exponentialRampToValueAtTime(
+      .28,
+      now+.02
+    );
 
-  gain.gain.exponentialRampToValueAtTime(
-    .001,
-    audioCtx.currentTime+.24
-  );
+  gain.gain
+    .exponentialRampToValueAtTime(
+      .001,
+      now+.22
+    );
 
   osc.connect(gain);
+
+  gain.connect(
+    audioCtx.destination
+  );
+
+  osc.start(now);
+
+  osc.stop(
+    now+.25
+  );
+
+}
+
+
+/* SECOND HEARTBEAT */
+
+function doubleHeartbeat(){
+
+  heartbeat();
+
+  setTimeout(
+    heartbeat,
+    190
+  );
+
+}
+
+
+/* CREEPY LOW SOUND */
+
+function drone(){
+
+  if(!audioCtx) return;
+
+  const osc =
+    audioCtx.createOscillator();
+
+  const gain =
+    audioCtx.createGain();
+
+  const filter =
+    audioCtx.createBiquadFilter();
+
+  osc.type="sawtooth";
+  osc.frequency.value=38;
+
+  filter.type="lowpass";
+  filter.frequency.value=110;
+
+  gain.gain.value=.025;
+
+  osc.connect(filter);
+
+  filter.connect(gain);
 
   gain.connect(
     audioCtx.destination
@@ -821,7 +870,52 @@ function heartbeat(){
   osc.start();
 
   osc.stop(
-    audioCtx.currentTime+.25
+    audioCtx.currentTime+12
+  );
+
+}
+
+
+/* COUNT SOUND */
+
+function countSound(){
+
+  if(!audioCtx) return;
+
+  const osc =
+    audioCtx.createOscillator();
+
+  const gain =
+    audioCtx.createGain();
+
+  const now =
+    audioCtx.currentTime;
+
+  osc.type="square";
+  osc.frequency.value=90;
+
+  gain.gain
+    .setValueAtTime(
+      .10,
+      now
+    );
+
+  gain.gain
+    .exponentialRampToValueAtTime(
+      .001,
+      now+.18
+    );
+
+  osc.connect(gain);
+
+  gain.connect(
+    audioCtx.destination
+  );
+
+  osc.start(now);
+
+  osc.stop(
+    now+.2
   );
 
 }
@@ -831,14 +925,14 @@ function heartbeat(){
 
 function scream(){
 
-  audio();
+  if(!audioCtx) return;
 
-  const duration=1.5;
+  const duration=1.15;
 
   const buffer =
     audioCtx.createBuffer(
       1,
-      audioCtx.sampleRate*duration,
+      audioCtx.sampleRate * duration,
       audioCtx.sampleRate
     );
 
@@ -852,7 +946,8 @@ function scream(){
   ){
 
     const fade =
-      1-(i/data.length);
+      1 -
+      (i/data.length);
 
     data[i] =
       (Math.random()*2-1)
@@ -869,31 +964,13 @@ function scream(){
     audioCtx.createBiquadFilter();
 
   filter.type="bandpass";
-
-  filter.frequency.setValueAtTime(
-    1800,
-    audioCtx.currentTime
-  );
-
-  filter.frequency.exponentialRampToValueAtTime(
-    500,
-    audioCtx.currentTime+1.3
-  );
-
+  filter.frequency.value=950;
   filter.Q.value=.8;
 
   const gain =
     audioCtx.createGain();
 
-  gain.gain.setValueAtTime(
-    .75,
-    audioCtx.currentTime
-  );
-
-  gain.gain.exponentialRampToValueAtTime(
-    .01,
-    audioCtx.currentTime+1.5
-  );
+  gain.gain.value=.38;
 
   source.connect(filter);
 
@@ -908,19 +985,11 @@ function scream(){
 }
 
 
-/* ==========================
-   START AFTER BUTTON TAP
-========================== */
+/* =========================
+   START
+========================= */
 
 let started=false;
-let beat;
-
-
-/*
- IMPORTANT:
- Audio is unlocked directly
- from the OPEN IT button tap.
-*/
 
 openBtn.addEventListener(
   "click",
@@ -930,10 +999,14 @@ openBtn.addEventListener(
 
     started=true;
 
-    audio();
+    /* user tap unlocks audio */
+
+    initAudio();
 
     if(
-      audioCtx.state==="suspended"
+      audioCtx.state
+      ===
+      "suspended"
     ){
 
       await audioCtx.resume();
@@ -941,54 +1014,46 @@ openBtn.addEventListener(
     }
 
 
-    /* Hide button */
-
     openBtn.style.display="none";
 
 
     /*
-      First tiny heartbeat.
-      This happens from the tap,
-      helping keep audio active.
+      Looks normal at first
     */
 
-    heartbeat();
+    introTitle.innerHTML=
+      "FRIEND...";
+
+    introText.innerHTML=
+      "I HOPE YOU LIKE IT ♥";
 
 
-    /* CHANGE MESSAGE */
-
-    introTitle.classList.remove(
-      "romana"
-    );
-
-    introTitle.classList.add(
-      "horrorTitle"
-    );
-
-    introTitle.innerHTML =
-      "ROMANA...";
-
-    introSub.innerHTML =
-      "YOU SHOULDN'T HAVE OPENED IT.";
+    doubleHeartbeat();
 
 
-    /* WARNING */
+    /*
+      Something starts feeling wrong
+    */
 
     setTimeout(()=>{
 
-      warning.innerHTML =
-        "⚠ WARNING ⚠";
+      introTitle.style.color=
+        "#850000";
 
-      introTitle.innerHTML =
-        "DON'T LOOK BEHIND YOU.";
+      introTitle.innerHTML=
+        "WAIT...";
 
-      introSub.innerHTML =
-        "Something is already here...";
+      introText.innerHTML=
+        "DID YOU HEAR THAT?";
 
-    },2200);
+      drone();
+
+    },1800);
 
 
-    /* DARK ROOM */
+    /*
+      Enter room
+    */
 
     setTimeout(()=>{
 
@@ -1000,10 +1065,12 @@ openBtn.addEventListener(
         "show"
       );
 
-    },5200);
+    },3900);
 
 
-    /* EYES */
+    /*
+      Eyes
+    */
 
     setTimeout(()=>{
 
@@ -1011,85 +1078,164 @@ openBtn.addEventListener(
         "show"
       );
 
-    },7200);
+      doubleHeartbeat();
+
+    },5300);
 
 
-    /* HEARTBEAT */
-
-    setTimeout(()=>{
-
-      heartbeat();
-
-      beat =
-        setInterval(
-          heartbeat,
-          850
-        );
-
-    },7500);
-
-
-    /* MESSAGE */
+    /*
+      Message
+    */
 
     setTimeout(()=>{
+
+      message.innerHTML=
+        "DON'T LOOK AWAY";
 
       message.classList.add(
         "show"
       );
 
-    },9000);
+      heartbeatTimer =
+        setInterval(
+          doubleHeartbeat,
+          850
+        );
+
+    },6600);
 
 
-    /* COUNTDOWN */
+    /*
+      Change message
+    */
 
     setTimeout(()=>{
 
-      count.style.opacity=1;
+      message.innerHTML=
+        "IT'S GETTING CLOSER";
 
-      let n=3;
+    },8200);
 
-      count.innerText=n;
 
-      heartbeat();
+    /*
+      Countdown
+    */
 
-      const timer =
-        setInterval(()=>{
+    setTimeout(()=>{
 
-          n--;
+      clearInterval(
+        heartbeatTimer
+      );
 
-          if(n>0){
+      eyes.classList.remove(
+        "show"
+      );
 
-            count.innerText=n;
+      message.classList.remove(
+        "show"
+      );
 
-            heartbeat();
+      startCountdown();
 
-          }
-
-          else{
-
-            clearInterval(timer);
-
-            clearInterval(beat);
-
-            count.style.opacity=0;
-
-            jumpscare();
-
-          }
-
-        },800);
-
-    },10800);
+    },9700);
 
   }
 );
 
 
-/* ==========================
+/* =========================
+   COUNTDOWN 3 2 1
+========================= */
+
+function startCountdown(){
+
+  count.classList.add(
+    "show"
+  );
+
+  let number=3;
+
+  showNumber(number);
+
+  const timer =
+    setInterval(()=>{
+
+      number--;
+
+      if(number>0){
+
+        showNumber(number);
+
+      }
+
+      else{
+
+        clearInterval(timer);
+
+        /*
+          1 disappears.
+
+          Person expects the scare
+          NOW...
+
+          but nothing happens.
+        */
+
+        count.classList.remove(
+          "show"
+        );
+
+        silence.classList.add(
+          "show"
+        );
+
+
+        /*
+          Fake calm pause.
+          THEN surprise.
+        */
+
+        setTimeout(()=>{
+
+          jumpscare();
+
+        },1900);
+
+      }
+
+    },850);
+
+}
+
+
+function showNumber(n){
+
+  count.innerHTML=n;
+
+  count.classList.remove(
+    "pop"
+  );
+
+  void count.offsetWidth;
+
+  count.classList.add(
+    "pop"
+  );
+
+  countSound();
+
+}
+
+
+/* =========================
    JUMPSCARE
-========================== */
+========================= */
 
 function jumpscare(){
+
+  silence.classList.remove(
+    "show"
+  );
 
   scare.classList.add(
     "active"
@@ -1099,30 +1245,29 @@ function jumpscare(){
     "active"
   );
 
-
-  /* SCREAM */
-
   scream();
 
 
-  /* VIBRATION */
-
-  if(navigator.vibrate){
+  if(
+    navigator.vibrate
+  ){
 
     navigator.vibrate(
       [
-        180,
-        40,
-        180,
-        40,
-        350
+        130,
+        60,
+        130,
+        60,
+        250
       ]
     );
 
   }
 
 
-  /* SHOW END */
+  /*
+    Finish joke
+  */
 
   setTimeout(()=>{
 
@@ -1134,7 +1279,7 @@ function jumpscare(){
       "show"
     );
 
-  },1900);
+  },1700);
 
 }
 
